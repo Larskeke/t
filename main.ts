@@ -1,46 +1,50 @@
-let knuffel = 5
-let voeden = 5
+input.onButtonPressed(Button.A, function () {
+    voeden += voeden + 5
+})
+input.onButtonPressed(Button.AB, function () {
+    knuffel += knuffel + 5
+})
+let voeden = 0
+let knuffel = 0
+knuffel = 5
+voeden = 5
+let dood = 0
 basic.forever(function () {
-    knuffel += knuffel - 1
+    knuffel += -1
     basic.pause(1000)
 })
 basic.forever(function () {
-    if (Kitronik_Game_Controller.buttonIsPressed(Kitronik_Game_Controller.ControllerButtonPins.Left)) {
-        voeden += voeden + 5
-    }
-})
-basic.forever(function () {
-    if (Kitronik_Game_Controller.buttonIsPressed(Kitronik_Game_Controller.ControllerButtonPins.Right)) {
-        knuffel += knuffel + 5
-    }
-})
-basic.forever(function () {
-    voeden += voeden - 1
+    voeden += -1
     basic.pause(1000)
 })
 basic.forever(function () {
-    if ((knuffel || voeden) >= 10) {
-        basic.showIcon(IconNames.Happy)
-    }
-})
-basic.forever(function () {
-    if ((knuffel && voeden) < 10) {
-        basic.showIcon(IconNames.Asleep)
-    }
-})
-basic.forever(function () {
-    if ((knuffel || voeden) <= 0) {
-        basic.showIcon(IconNames.Sad)
-    }
-})
-basic.forever(function () {
-    if ((knuffel || voeden) < 0) {
+    if (dood == 1) {
         basic.showLeds(`
             . . . . .
-            . # . # .
+            . . . . .
             . . . . .
             . # # # .
             # . . . #
             `)
+    }
+})
+basic.forever(function () {
+    if (dood == 0) {
+        if (knuffel >= 10 && voeden >= 10) {
+            basic.showIcon(IconNames.Happy)
+        }
+        if (voeden < 10 && voeden >= 5 || knuffel < 10 && knuffel >= 5) {
+            basic.showIcon(IconNames.Asleep)
+        }
+        if (knuffel <= 0 || voeden <= 0) {
+            basic.showLeds(`
+                . . . . .
+                . # . # .
+                . . . . .
+                . # # # .
+                # . . . #
+                `)
+            dood = 1
+        }
     }
 })
